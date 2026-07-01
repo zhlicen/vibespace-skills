@@ -1,0 +1,82 @@
+/* ops-dashboard-design · design tokens
+ *
+ * RULE 1  Every neutral color (backgrounds, borders, text) MUST reference one of
+ *         these variables. NEVER hardcode a neutral hex in markup or JS — that is
+ *         exactly what breaks dark mode (dark text on a dark card = invisible).
+ * RULE 2  Semantic accent colors (--accent, --success, --warning, --danger) stay
+ *         constant across light/dark; they are legible on both. Use them literally
+ *         for meaning (a red error stays red), not for neutral chrome.
+ * RULE 3  Dark mode = add class "dark" to <html>. Only the neutral tokens flip.
+ */
+
+:root {
+  /* neutral surfaces */
+  --bg:            #F5F5F7;   /* page background */
+  --card:          #FFFFFF;   /* card / panel surface */
+  --border:        rgba(0,0,0,0.07);
+  --divider:       #F0F0F2;   /* table row dividers, track fills */
+  --row:           #FFFFFF;   /* normal table row */
+  --row-alt:       #FBFBFC;   /* deleted / de-emphasized row */
+
+  /* neutral text */
+  --text:          #1D1D1F;   /* primary text + big numbers */
+  --sub:           #6E6E73;   /* secondary text */
+  --muted:         #8E8E93;   /* tertiary / labels / captions */
+
+  /* controls */
+  --input-bg:      #F5F5F7;
+  --input-border:  #E5E5EA;
+  --tab-bg:        #E9E9EB;   /* segmented tab track */
+  --header-bg:     rgba(255,255,255,0.82); /* sticky header (blurred) */
+
+  /* semantic accents — DO NOT redefine in .dark (they are mode-invariant) */
+  --accent:        #0071E3;   /* primary: links, selected, main series */
+  --success:       #34C759;
+  --warning:       #FF9F0A;
+  --danger:        #FF3B30;
+
+  /* chart categorical palette */
+  --c1:#0071E3; --c2:#34C759; --c3:#FF9F0A; --c4:#FF3B30;
+  --c5:#5E5CE6; --c6:#AF52DE; --c7:#30B0C7; --c8:#C7C7CC;
+
+  /* shape */
+  --radius-card:   18px;
+  --radius-ctrl:   11px;
+  --shadow-card:   0 1px 3px rgba(0,0,0,0.05);
+}
+
+.dark {
+  --bg:            #1C1C1E;
+  --card:          #2C2C2E;
+  --border:        rgba(255,255,255,0.08);
+  --divider:       #3A3A3C;
+  --row:           #2C2C2E;
+  --row-alt:       #3A3A3C;
+
+  --text:          #F5F5F7;
+  --sub:           #AEAEB2;
+  --muted:         #636366;
+
+  --input-bg:      #3A3A3C;
+  --input-border:  #545456;
+  --tab-bg:        #3A3A3C;
+  --header-bg:     rgba(28,28,30,0.88);
+  /* accents intentionally inherited from :root */
+}
+
+/* base */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background .2s, color .2s;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+}
+.tnum { font-variant-numeric: tabular-nums; } /* align numbers in tables/KPIs */

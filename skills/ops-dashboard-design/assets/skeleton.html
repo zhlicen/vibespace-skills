@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="appTitle">Ops Dashboard</title>
+<!-- Chart.js via CDN keeps this zero-build; swap for a bundled copy if offline -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="./tokens.css">
+<style>
+  /* layout-only rules; all colors come from tokens.css variables */
+  header.appbar { position:sticky; top:0; z-index:40; background:var(--header-bg);
+    backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:1px solid var(--border); transition:background .2s,border-color .2s; }
+  .wrap { max-width:1320px; margin:0 auto; padding:0 28px; }
+  .row1 { height:60px; display:flex; align-items:center; gap:16px; }
+  .row2 { display:flex; align-items:center; gap:16px; padding-bottom:12px; }
+  .spacer { flex:1; }
+  .iconbtn { width:38px; height:38px; border:none; background:var(--card); border-radius:var(--radius-ctrl);
+    box-shadow:var(--shadow-card); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--text); }
+  .ctrl { height:38px; font-size:13px; padding:0 10px; border-radius:var(--radius-ctrl);
+    border:1px solid var(--input-border); background:var(--card); color:var(--text); cursor:pointer; outline:none; }
+  #tabs { display:inline-flex; background:var(--tab-bg); border-radius:var(--radius-ctrl); padding:3px; gap:2px; }
+  .tab-btn { border:none; cursor:pointer; padding:7px 16px; border-radius:8px; font:inherit; font-size:13.5px; }
+  main { max-width:1320px; margin:0 auto; padding:24px 28px 80px; }
+  .kpiRow { display:grid; grid-template-columns:repeat(6,1fr); gap:16px; margin-bottom:20px; }
+  .chartRow { display:grid; grid-template-columns:1.5fr 1fr; gap:20px; margin-bottom:20px; }
+  .ctitle { font-size:14px; font-weight:600; }
+  .csub { font-size:12px; color:var(--muted); margin-bottom:12px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { color:var(--muted); font-size:11.5px; font-weight:600; text-transform:uppercase; letter-spacing:.4px; text-align:left; padding:9px 16px; }
+  td { padding:12px 16px; }
+  tbody tr { border-bottom:1px solid var(--divider); }
+</style>
+</head>
+<body>
+  <header class="appbar">
+    <div class="wrap row1">
+      <strong data-i18n="appTitle">Ops Dashboard</strong>
+      <span class="spacer"></span>
+      <span id="dataAsOf" data-i18n="common.none"></span>
+      <select id="refreshInterval" class="ctrl">
+        <option value="0" data-i18n="hdr.manual">Manual</option>
+        <option value="10">10s</option><option value="30">30s</option><option value="60">60s</option>
+      </select>
+      <button id="refreshToggle" class="iconbtn" data-i18n-title="hdr.refresh">⏸</button>
+      <button id="darkToggle" class="iconbtn" data-i18n-title="hdr.dark">🌙</button>
+      <button id="langToggle" class="iconbtn" data-i18n-title="hdr.lang" style="font-size:13px;font-weight:600;">中</button>
+    </div>
+    <div class="wrap row2">
+      <div id="tabs">
+        <button class="tab-btn" data-tab="overview" data-i18n="nav.overview">Overview</button>
+        <!-- add tabs -->
+      </div>
+      <span class="spacer"></span>
+      <div id="timeRangeWrap" style="display:flex;align-items:center;gap:8px;">
+        <span data-i18n="hdr.timeRange">Time range</span>
+        <select id="daysSelect" class="ctrl" style="height:36px;">
+          <option value="today" data-i18n="days.today">Today</option>
+          <option value="7" data-i18n="days.d7">Last 7 days</option>
+          <option value="30" selected data-i18n="days.d30">Last 30 days</option>
+          <option value="0" data-i18n="days.all">All</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="view-overview">
+      <div class="kpiRow" id="kpiRow"><!-- KPI cards rendered by JS --></div>
+      <div class="chartRow">
+        <div class="card"><div class="ctitle" data-i18n="ov.dailyTitle"></div><div class="csub" data-i18n="ov.dailySub"></div><div style="height:260px;"><canvas id="cnv-daily"></canvas></div></div>
+        <div class="card"><div class="ctitle" data-i18n="ov.shareTitle"></div><div class="csub" data-i18n="ov.shareSub"></div><div style="height:260px;"><canvas id="cnv-share"></canvas></div></div>
+      </div>
+    </section>
+    <!-- more <section id="view-..."> per tab -->
+  </main>
+
+  <div id="drawerRoot"></div>
+  <script src="./i18n.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
