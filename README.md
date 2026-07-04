@@ -8,6 +8,7 @@ A collection of reusable [Agent Skills](https://docs.claude.com/en/docs/agents-a
 |-------|--------------|
 | [`dashboard-builder`](skills/dashboard-builder/) | End-to-end runbook that drives any coding agent to turn a non-technical user's own data (Excel/CSV or a database) into a running dashboard on their own Win/Mac machine: portable-Node bootstrap (no admin), guided requirements interview in the user's language, PRD, design sign-off, data wiring, metric implementation, local run, and handoff. Uses `ops-dashboard-design` for the visual layer. |
 | [`ops-dashboard-design`](skills/ops-dashboard-design/) | Opinionated design system for read-only operational / admin / internal-tool dashboards: Apple-style design tokens, dark mode via CSS variables, an i18n scaffold, a layout skeleton, and component patterns — plus the rules that prevent common dark-mode and i18n pitfalls. |
+| [`ssh-op-skill`](skills/ssh-op-skill/) | Windows-first SSH operations workspace with favorites, one explicit current connection, cached host facts, safe change logging, private runtime credentials, and reusable local operation skills. |
 
 ## How to use a skill
 

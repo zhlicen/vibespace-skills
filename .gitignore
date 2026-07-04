@@ -4,3 +4,6 @@ node_modules/
 .env
 .env.*
 Thumbs.db
+
+# Private state for ssh-op-skill
+/skills/ssh-op-skill/runtime/

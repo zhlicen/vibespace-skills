@@ -1,0 +1,4 @@
+interface:
+  display_name: "SSH Ops"
+  short_description: "Windows-first SSH workspace and operations"
+  default_prompt: "Use $ssh-op-skill to select an SSH favorite and safely perform a remote operation."
