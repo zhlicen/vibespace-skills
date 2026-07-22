@@ -1,6 +1,13 @@
 ---
 name: dashboard-builder
-description: Use when a (often non-technical) user wants to turn their own data — a local Excel/CSV file or a database — into a running, good-looking dynamic dashboard on their own Windows or Mac computer. Drives the whole flow end to end: environment bootstrap (portable Node, no admin), guided requirements interview in the user's language, PRD, design sign-off, data-source wiring, metric implementation, local run, and handoff. Runs under any capable coding agent (not just Claude Code). Local run only — no production deployment.
+description: >-
+  Use when a (often non-technical) user wants to turn their own data — a local
+  Excel/CSV file or a database — into a running, good-looking dynamic dashboard
+  on their own Windows or Mac computer. Drives the whole flow end to end:
+  environment bootstrap (portable Node, no admin), guided requirements interview
+  in the user's language, PRD, design sign-off, data-source wiring, metric
+  implementation, local run, and handoff. Runs under any capable coding agent
+  (not just Claude Code). Local run only — no production deployment.
 ---
 
 # Dashboard Builder
@@ -148,9 +155,9 @@ Consolidate `research.md` into a short PRD (working language): purpose, audience
 
 **GOAL:** `design.html` — a static mockup with fake numbers the user approves before any data wiring.
 
-**Apply the `ops-dashboard-design` skill** for all visual decisions (tokens, dark mode, layout, component patterns). Its `assets/tokens.css` and `assets/i18n.js` are already vendored into the scaffold (Stage 6) — reuse them here.
+**Apply the `ops-dashboard-design` skill** for all visual decisions (tokens, dark mode, layout, component patterns). The dashboard-builder scaffold already vendors the needed design assets under `assets/scaffold/public/`; for this stage, copy only `assets/scaffold/public/tokens.css` and `assets/scaffold/public/i18n.js` next to `design.html` (or reference those files directly with stable relative paths). Stage 6 materializes the full runnable scaffold later.
 
-1. Build `design.html`: header + the KPI/chart/table blocks from the PRD, filled with **obvious fake sample data**, using the design tokens. Include the dark-mode toggle and language handling.
+1. Build `design.html`: header + the KPI/chart/table blocks from the PRD, filled with **obvious fake sample data**, using the copied design tokens. Include the dark-mode toggle and language handling.
 2. Open it for the user (print the file path and, if you can, open it in the browser).
 3. Default to the opinionated style — do NOT offer a style picker. Only adjust primary color / density if asked.
 
@@ -175,7 +182,7 @@ Read `reference/metric-inference.md` for column→metric mapping heuristics.
   "file": "data/sales.xlsx",           // for excel/csv
   "sheet": "Sheet1",
   "env": { "connKeys": ["DB_URL"] },   // for db: names of vars the user set in .env
-  "columnMap": { "<metricId>": { "column": "...", "agg": "sum|count|avg|max|min" } }
+  "columnMap": { "<metricId>": { "label": "<working-language label>", "column": "...", "agg": "sum|count|avg|max|min" } }
 }
 ```
 
@@ -196,7 +203,7 @@ Read `reference/metric-inference.md` for column→metric mapping heuristics.
    { kpis: [...], charts: [...], tables: [...], asOf: "<timestamp>" }
    ```
 2. Implement one metric at a time, in the order of the PRD. For each: pull from `ds` (the adapter), apply the `agg` from `datasource.json`, format numbers/dates.
-3. Keep every user-facing label going through the i18n dictionary so the dashboard follows `workingLanguage`.
+3. Keep dashboard chrome (app title, buttons, loading/error/empty states) in the frontend i18n dictionary. Keep business metric labels, chart labels, table titles, and units in `datasource.json` / `metrics.js` as `workingLanguage` text and render them as-is; do not force metric labels through the i18n dictionary.
 
 **VERIFY:** you will run it in Stage 6; do not claim it works yet.
 
